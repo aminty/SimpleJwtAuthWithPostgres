@@ -1,5 +1,6 @@
 package com.springSecurity.jwt.config;
 
+import com.springSecurity.jwt.JwtApplication;
 import com.springSecurity.jwt.repository.UserRepository;
 import com.springSecurity.jwt.service.UserService;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        System.out.println("inside security config class --> step "+ ++JwtApplication.STEP);
+
         return http
                 .csrf().disable()
                 .authorizeRequests()

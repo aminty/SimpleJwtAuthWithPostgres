@@ -1,5 +1,6 @@
 package com.springSecurity.jwt.config;
 
+import com.springSecurity.jwt.JwtApplication;
 import com.springSecurity.jwt.domain.SecurityUser;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("inside jwt auth filter do filter ----> step "+ ++JwtApplication.STEP);
 
         String authHeader=request.getHeader(AUTHORIZATION);
         String username;
@@ -47,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter
         jwtToken=authHeader.substring(7);
         username=jwtUtils.extractUsername(jwtToken);
         if (username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            SecurityUser userDetails= (SecurityUser) userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails=  userDetailsService.loadUserByUsername(username);
 
             if (jwtUtils.validateToken(jwtToken,userDetails)){
                 UsernamePasswordAuthenticationToken authenticationToken=

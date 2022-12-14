@@ -39,6 +39,7 @@ public class AuthenticationController {
 
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         }
+        System.out.println("-----------> user not found");
         return ResponseEntity.status(400).body("error occurred!!!");
 
 
